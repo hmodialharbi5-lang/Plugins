@@ -1,38 +1,74 @@
-name: Build InfiniteMinions
+name: Build InfiniteMinions Plugin
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:   # Allows manual trigger from GitHub UI
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup .NET 9
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
 
+      - name: Create lib directory
+        run: mkdir -p lib
+
+      # ============================================================
+      # IMPORTANT: TShock DLLs are required to compile the plugin.
+      # You must provide them. Common options:
+      #
+      # Option A (recommended for public repos):
+      #   Download from a TShock GitHub Release in this step.
+      #   Replace the example URLs with real ones from:
+      #   https://github.com/Pryaxis/TShock/releases
+      #
+      # Option B:
+      #   Commit the real DLLs into the lib/ folder of your repo
+      #   (only do this if the repo is private).
+      # ============================================================
+
+      - name: Download TShock dependencies
+        run: |
+          echo "Downloading TShock dependencies..."
+          
+          # >>> REPLACE THESE URLs WITH REAL LINKS FROM THE TSHOCK RELEASE YOU TARGET <<<
+          # curl -L -o lib/TShockAPI.dll "https://github.com/Pryaxis/TShock/releases/download/v6.1.0/TShockAPI.dll"
+          # curl -L -o lib/OTAPI.dll "https://github.com/Pryaxis/TShock/releases/download/v6.1.0/OTAPI.dll"
+          # curl -L -o lib/TerrariaServer.dll "https://github.com/Pryaxis/TShock/releases/download/v6.1.0/TerrariaServer.dll"
+
+          # Temporary placeholders so the workflow file is syntactically valid.
+          # Delete the three lines below and uncomment the real curl commands above.
+          touch lib/TShockAPI.dll
+          touch lib/OTAPI.dll
+          touch lib/TerrariaServer.dll
+          
+          echo "⚠️  Update the download URLs with real TShock release assets!"
+
       - name: Restore
         run: dotnet restore
 
-      - name: Build
+      - name: Build (Release)
         run: dotnet build -c Release --no-restore
 
-      - name: Show build output
-        run: |
-          echo "Built DLLs:"
-          find . -type f -path '*/bin/Release/*' -name '*.dll' -print
-
-      - name: Upload plugin
+      - name: Upload plugin DLL
         uses: actions/upload-artifact@v4
         with:
           name: InfiniteMinions
-          path: '**/bin/Release/**/InfiniteMinions.dll'
+          path: bin/Release/net9.0/InfiniteMinions.dll
           if-no-files-found: error
+
+      - name: Upload full output folder
+        uses: actions/upload-artifact@v4
+        with:
+          name: InfiniteMinions-full
+          path: bin/Release/net9.0/
