@@ -1,4 +1,4 @@
-name: Build InfiniteMinions Plugin
+name: Build InfiniteMinions
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup .NET
@@ -20,25 +20,14 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
-      - name: Check for required DLLs
-        run: |
-          echo "Checking lib folder..."
-          ls -la lib/
-          if [ ! -f lib/TShockAPI.dll ]; then
-            echo "ERROR: lib/TShockAPI.dll is missing!"
-            echo "Please put the real TShock DLLs in the lib/ folder and commit them."
-            exit 1
-          fi
-
       - name: Restore
         run: dotnet restore
 
-      - name: Build (Release)
+      - name: Build
         run: dotnet build -c Release --no-restore
 
-      - name: Upload plugin DLL
+      - name: Upload DLL
         uses: actions/upload-artifact@v4
         with:
           name: InfiniteMinions
           path: bin/Release/net9.0/InfiniteMinions.dll
-          if-no-files-found: error
