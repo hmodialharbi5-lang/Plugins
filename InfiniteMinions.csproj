@@ -1,32 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
-    <AssemblyName>InfiniteMinions</AssemblyName>
     <RootNamespace>InfiniteMinions</RootNamespace>
-    <Version>1.0.1</Version>
-    <Authors>OpenAI</Authors>
-    <Description>Per-player increased minion limits for TShock 6.x.</Description>
-    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
-    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <AssemblyName>InfiniteMinions</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup>
-    <TShockServerPath Condition="'$(TShockServerPath)' == ''">..</TShockServerPath>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="TShockAPI">
-      <HintPath>$(TShockServerPath)/ServerPlugins/TShockAPI.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="OTAPI">
-      <HintPath>$(TShockServerPath)/OTAPI.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="TerrariaServer">
-      <HintPath>$(TShockServerPath)/TerrariaServer.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
+    <PackageReference Include="TShock" Version="6.1.0" />
   </ItemGroup>
+
 </Project>
