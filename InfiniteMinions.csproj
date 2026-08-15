@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>InfiniteMinions</AssemblyName>
+    <RootNamespace>InfiniteMinions</RootNamespace>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- 
+      You need to reference these from your TShock installation:
+      - TShockAPI.dll
+      - OTAPI.dll (or OTAPI.Runtime.dll)
+      - TerrariaServer.dll
+      Place them in a 'lib' folder or adjust the paths below.
+    -->
+    <Reference Include="TShockAPI">
+      <HintPath>lib\TShockAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="OTAPI">
+      <HintPath>lib\OTAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TerrariaServer">
+      <HintPath>lib\TerrariaServer.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+</Project>
