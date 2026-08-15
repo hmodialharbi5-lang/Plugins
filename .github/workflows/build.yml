@@ -20,14 +20,19 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore
-        run: dotnet restore InfiniteMinions.csproj
+        run: dotnet restore
 
       - name: Build
-        run: dotnet build InfiniteMinions.csproj --configuration Release --no-restore
+        run: dotnet build -c Release --no-restore
+
+      - name: Show build output
+        run: |
+          echo "Built DLLs:"
+          find . -type f -path '*/bin/Release/*' -name '*.dll' -print
 
       - name: Upload plugin
         uses: actions/upload-artifact@v4
         with:
           name: InfiniteMinions
-          path: InfiniteMinions/bin/Release/net9.0/InfiniteMinions.dll
+          path: '**/bin/Release/**/InfiniteMinions.dll'
           if-no-files-found: error
